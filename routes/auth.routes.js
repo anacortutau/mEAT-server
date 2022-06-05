@@ -67,15 +67,15 @@ router.post("/login", async(req, res, next)=>{
 
     try{
 
-        const foundUSer = await UserModel.findOne({email})
-        if(foundUSer === null){
+        const foundUser = await UserModel.findOne({email})
+        if(foundUser === null){
             res.status(400).json({errorMessage: "User not registered"})
             return;
         }
 
         //el usuario ha sido validado
 
-        const passwordMatch = await bcryptjs.compare(password, foundUSer.password)
+        const passwordMatch = await bcryptjs.compare(password, foundUser.password)
         console.log(passwordMatch)
 
         if(passwordMatch === false){
@@ -87,10 +87,10 @@ router.post("/login", async(req, res, next)=>{
         // crear token
        const payload ={
            
-           _id: foundUSer._id,
-           email: foundUSer.email,
-           username: foundUSer.username,
-           role: foundUSer.role
+           _id: foundUser._id,
+           email: foundUser.email,
+           username: foundUser.username,
+           role: foundUser.role
        }
        
 

@@ -28,11 +28,11 @@ router.post ("/",async (req, res,next)=>{
         //IMPORTANTE ESTO ES PARA PRUEBAS DE POSTMAN CAMBIAR CUANDO LLEGUE A EL FRONTEND
         
         const response = await Menu.create({
-            //products,
+            products,
             name,
             image,
             price,
-            products:req.body["products[]"]
+            //products:req.body["products[]"]
         })
 
         res.json(response)
@@ -101,7 +101,6 @@ router.delete("/:id", async(req, res, next)=>{
 })
 
 
-router.delete
 
 
 module.exports = router;

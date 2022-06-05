@@ -27,4 +27,4 @@ const isAuthenticated = expressjwt({
 
 })
 
-module. exports = isAuthenticated
+module.exports = isAuthenticated
