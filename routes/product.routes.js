@@ -41,8 +41,8 @@ router.post ("/",async (req, res,next)=>{
 
 //GET ver los detalles del producto
 
-router.get("/:id", async(eeq, res, next)=>{
-    const {id} = req.params
+router.get("/:id", async(req, res, next)=>{
+    const {id}=req.params
 
     try{
         const response = await Products.findById(id)
@@ -52,11 +52,27 @@ router.get("/:id", async(eeq, res, next)=>{
     }
 })
 
+
+//DELETE "/api/product/:id" => borrar un producto
+
+router.delete("/:id", async(req, res, next)=>{
+
+    const {id}=req.params
+
+    try{
+
+        await Products.findByIdAndDelete(id)
+        res.json("The product has been deleted")
+    }catch(error){
+        next (error)
+    }
+})
+
 // PATCH "/api/product/:id"
 
 router.patch("/:id", async(req, res, next)=>{
 
-    const {id} = req.params
+    const {id}=req.params
     const {category, name, image, price } = req.body
 
     //condición para postman que esten todos los campos llenos
@@ -79,20 +95,6 @@ router.patch("/:id", async(req, res, next)=>{
     }
 })
 
-//DELETE "/api/product/:id" => borrar un producto
-
-router.delete("/:id", async(req, res, next)=>{
-
-    const {id} = req. params
-
-    try{
-
-        await Products.findByIdAndDelete(id)
-        res.json("The product has been deleted")
-    }catch(error){
-        next (error)
-    }
-})
 
 
 

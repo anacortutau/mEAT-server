@@ -5,17 +5,17 @@ const orderSchema = new Schema ({
 
     user: {
         type: Schema.Types.ObjectId,
-        ref:"User"
+        ref:"user"
     },
 
     products: [{
         type: Schema.Types.ObjectId,
-        ref: "Products",
+        ref: "products",
     }],
 
     menu: [{
         type: Schema.Types.ObjectId,
-        ref: "Menu",
+        ref: "menu",
 
     }],
 
@@ -28,6 +28,6 @@ const orderSchema = new Schema ({
 
 
 
-const Order = model("Order", orderSchema);
+const Order = model("order", orderSchema);
 
 module.exports = Order;

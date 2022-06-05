@@ -8,7 +8,7 @@ const productSchema = new Schema ({
 
 category: {
     type: String,
-    enum: ["Burguer", "Garrison", "Dessert", "Beverage"]
+    enum: ["Dish", "Garrison", "Dessert", "Beverage"]
 },
 name: {
     type: String
@@ -28,6 +28,6 @@ price: {
 })
 
 
-const Products = model("Products", productSchema);
+const Products = model("products", productSchema);
 
 module.exports = Products;

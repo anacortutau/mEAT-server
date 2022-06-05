@@ -1,32 +1,34 @@
 const router = require("express").Router();
-const Menu = require("../models/Menu.model")
+const Menu = require("../models/Menu.model");
+
+
 
 //GET ver todos los menus
 router.get("/", async (req, res, next)=>{
 
-    try{
 
-        const response = await Menu.find()
+    try{
+        const response = await Menu.find().populate("products")
+        console.log(response)
+
         res.json(response)
     }catch(error){
         next (error)
     }
 })
 
-// POST "/api/menu" => crear un nuevo menu
 
 router.post ("/",async (req, res,next)=>{
 
     const {name, products, image, price} = req.body
-    console.log(req.body)
-    console.log(req.body["products[]"])
+    
 
     try{
 
         //IMPORTANTE ESTO ES PARA PRUEBAS DE POSTMAN CAMBIAR CUANDO LLEGUE A EL FRONTEND
-
+        
         const response = await Menu.create({
-           // products,
+            //products,
             name,
             image,
             price,
@@ -48,6 +50,7 @@ router.get ("/:id", async(req,res, next)=>{
 
     try{
         const response = await Menu.findById(id)
+        console.log(response)
         res.json(response)
     }catch(error){
         next (error)
@@ -61,16 +64,16 @@ router.patch("/:id", async (req, res, next)=>{
 
     //condición para postman que esten todos los campos llenos
 
-    if(!products|| !name|| !image|| !price){
+    if(!products|| !name|| !price === undefined ){
         return res.status(403).json("Fill in the fields")
     }
 
     try{
         await Menu.findByIdAndUpdate(id,{
-            products,
+            //products,
             name,
-            image, 
-            price
+            price,
+            products: req.body["products[]"]
 
 
         })

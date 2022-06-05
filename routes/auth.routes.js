@@ -109,7 +109,7 @@ router.post("/login", async(req, res, next)=>{
 })
 
 //GET "/api/auth/verify" => chekea que el token es valido, la ruta se usa para flujo de frontend
- router.get("/verify", isAuthenticated, (req, res, next) =>{
+ router.get("/verify",isAuthenticated, (req, res, next) =>{
 
     // const adminRole = req.payload.role
     // res.status(200).json({adminRole})

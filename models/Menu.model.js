@@ -9,7 +9,7 @@ const menuSchema = new Schema({
 
     products: [{
         type: Schema.Types.ObjectId,
-        ref: "Products",
+        ref: "products",
     }],
 
     price: {
@@ -21,15 +21,11 @@ const menuSchema = new Schema({
         type: String,
     
     
-    }, 
-
-
+    },
 
 })
 
 
-
-
-const Menu = model("Menu", menuSchema);
+const Menu = model("menu", menuSchema);
 
 module.exports = Menu;

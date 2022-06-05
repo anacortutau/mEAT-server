@@ -3,7 +3,7 @@ const Order = require("../models/Order.model")
 const isAuthenticated = require("../middleware/isAuthenticated")
 
 //GET  "/api/order" ver el pedido
-router.get("/", isAuthenticated, async (req, res, next)=>{
+router.get("/", async (req, res, next)=>{
     try{
 
         const response = await Order.find()
@@ -13,7 +13,7 @@ router.get("/", isAuthenticated, async (req, res, next)=>{
     }
 })
 
-router.post("/", isAuthenticated, async(req, res, next)=>{
+router.post("/", async(req, res, next)=>{
 
     const {user, products, menu, price } = req.body
 
@@ -33,9 +33,9 @@ router.post("/", isAuthenticated, async(req, res, next)=>{
     }
 })
 
-// GET ver los detalles del menu
+//GET ver los detalles del menu
 
-router.get("/:id", isAuthenticated,  async(req, res, next)=>{
+router.get("/:id", async(req, res, next)=>{
 
     const {id} = req.params
 
@@ -50,14 +50,14 @@ router.get("/:id", isAuthenticated,  async(req, res, next)=>{
 
 
 //PATCH "/api/order/:id"
-router.patch("/:id",isAuthenticated, async(req, res, next)=>{
+router.patch("/:id", async(req, res, next)=>{
 
     const {id} = req.params
     const {products, menu, price } = req.body
 
     // en postman le pedimos que rellene todos los campos
 
-    if(!products|| !menu|| !price){
+    if(!products|| !menu|| !price === undefined){
         return res.status(403).json("Fill in the fields")
 
     }
@@ -82,7 +82,7 @@ router.patch("/:id",isAuthenticated, async(req, res, next)=>{
 
 //DELETE "/api/order/:id"
 
-router.delete("/:id", isAuthenticated, async(req, res, next) =>{
+router.delete("/:id", async(req, res, next) =>{
 
 
     const {id} = req.params
