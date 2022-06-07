@@ -3,10 +3,11 @@ const Order = require("../models/Order.model")
 const isAuthenticated = require("../middleware/isAuthenticated")
 
 //GET  "/api/order" ver el pedido
-router.get("/", async (req, res, next)=>{
+router.get("/", isAuthenticated, async (req, res, next)=>{
     try{
+        const{_id} = req.payload;
 
-        const response = await Order.find()
+        const response = await Order.find({user:_id}).populate("products").populate("menu")
         res.json(response)
     }catch(error){
         next (error)
@@ -23,6 +24,8 @@ router.post("/", async(req, res, next)=>{
             user,
             products:req.body["products[]"],
             menu:req.body["menu[]"],
+            //products,
+            //menu,
             price
             
         })
@@ -33,20 +36,20 @@ router.post("/", async(req, res, next)=>{
     }
 })
 
-//GET ver los detalles del menu
+//GET ver los detalles del order
 
-router.get("/:id", async(req, res, next)=>{
+// router.get("/:id", async(req, res, next)=>{
 
-    const {id} = req.params
+//     const {id} = req.params
 
-    try{
+//     try{
 
-        const response = await Order.findById(id)
-        res.json(response)
-    }catch(error){
-        next(error)
-    }
-})
+//         const response = await Order.findById(id).populate("products").populate("menu")
+//         res.json(response)
+//     }catch(error){
+//         next(error)
+//     }
+// })
 
 
 //PATCH "/api/order/:id"

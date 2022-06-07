@@ -1,24 +1,21 @@
 const router = require("express").Router();
 const Menu = require("../models/Menu.model");
 
-
-
 //GET ver todos los menus
 router.get("/", async (req, res, next)=>{
 
 
     try{
         const response = await Menu.find().populate("products")
-        console.log(response)
 
         res.json(response)
     }catch(error){
-        next (error)
+        next(error)
     }
 })
 
 
-router.post ("/",async (req, res,next)=>{
+router.post ("/", async (req, res,next)=>{
 
     const {name, products, image, price} = req.body
     
@@ -32,12 +29,12 @@ router.post ("/",async (req, res,next)=>{
             name,
             image,
             price,
-            //products:req.body["products[]"]
+            //products:req.body["products"]
         })
 
         res.json(response)
     }catch(error){
-        next (error)
+        next(error)
     }
 
 
@@ -49,11 +46,11 @@ router.get ("/:id", async(req,res, next)=>{
     const {id} = req.params
 
     try{
-        const response = await Menu.findById(id)
+        const response = await Menu.findById(id).populate("products")
         console.log(response)
         res.json(response)
     }catch(error){
-        next (error)
+        next(error)
     }
 })
 
@@ -70,10 +67,10 @@ router.patch("/:id", async (req, res, next)=>{
 
     try{
         await Menu.findByIdAndUpdate(id,{
-            //products,
+            products,
             name,
             price,
-            products: req.body["products[]"]
+            //products: req.body["products"]
 
 
         })
@@ -96,7 +93,7 @@ router.delete("/:id", async(req, res, next)=>{
         await Menu.findByIdAndDelete(id)
         res.json("Menu has been deleted")
     }catch(error){
-        next (error)
+        next(error)
     }
 })
 

@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Products = require("../models/Products.model.js")
+const isAdmin = require("../middleware/isAdmin")
 
 
 //GET  "/api/product" ver todos los productos 
@@ -18,7 +19,7 @@ router.get("/", async (req, res, next)=>{
 
 // POST "/api/product" => crear un nuevo producto
 
-router.post ("/",async (req, res,next)=>{
+router.post ("/", async (req, res,next)=>{
 
     const {category, name, image, price} = req.body
 

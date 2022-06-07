@@ -22,7 +22,7 @@ router.post ("/signup", async (req, res, next)=>{
 
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
     if(passwordRegex.test(password) === false){
-        res.status(400).json({errorMessage: "Passwords are no the same"})
+        res.status(400).json({errorMessage: "Passwords must have seven letters and a number"})
     }
 
 
@@ -111,10 +111,12 @@ router.post("/login", async(req, res, next)=>{
 //GET "/api/auth/verify" => chekea que el token es valido, la ruta se usa para flujo de frontend
  router.get("/verify",isAuthenticated, (req, res, next) =>{
 
-    // const adminRole = req.payload.role
-    // res.status(200).json({adminRole})
+    const adminRole = req.payload.role
+    res.status(200).json({adminRole})
 
-    res.json(req.payload)
+    // res.json(req.payload)
  } )
+
+
 
 module.exports = router;

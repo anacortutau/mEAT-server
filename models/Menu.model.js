@@ -9,7 +9,7 @@ const menuSchema = new Schema({
 
     products: [{
         type: Schema.Types.ObjectId,
-        ref: "products",
+        ref:"products",
     }],
 
     price: {
