@@ -1,10 +1,11 @@
 const router = require("express").Router();
 const Products = require("../models/Products.model.js")
-const isAdmin = require("../middleware/isAdmin")
+const isAdmin = require("../middleware/isAdmin");
+const isAuthenticated = require("../middleware/isAuthenticated.js");
 
 
 //GET  "/api/product" ver todos los productos 
-router.get("/", async (req, res, next)=>{
+router.get("/",  async (req, res, next)=>{
 
     try{
 
@@ -19,7 +20,7 @@ router.get("/", async (req, res, next)=>{
 
 // POST "/api/product" => crear un nuevo producto
 
-router.post ("/", async (req, res,next)=>{
+router.post ("/",isAuthenticated, isAdmin, async (req, res,next)=>{
 
     const {category, name, image, price} = req.body
 
@@ -42,7 +43,7 @@ router.post ("/", async (req, res,next)=>{
 
 //GET ver los detalles del producto
 
-router.get("/:id", async(req, res, next)=>{
+router.get("/:id", isAuthenticated, async(req, res, next)=>{
     const {id}=req.params
 
     try{
@@ -56,7 +57,7 @@ router.get("/:id", async(req, res, next)=>{
 
 //DELETE "/api/product/:id" => borrar un producto
 
-router.delete("/:id", async(req, res, next)=>{
+router.delete("/:id",isAuthenticated, async(req, res, next)=>{
 
     const {id}=req.params
 
@@ -71,7 +72,7 @@ router.delete("/:id", async(req, res, next)=>{
 
 // PATCH "/api/product/:id"
 
-router.patch("/:id", async(req, res, next)=>{
+router.patch("/:id", isAuthenticated, async(req, res, next)=>{
 
     const {id}=req.params
     const {category, name, image, price } = req.body

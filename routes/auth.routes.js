@@ -8,11 +8,11 @@ const isAuthenticated = require("../middleware/isAuthenticated")
 //POST "/api/auth/signup" => registrar al usuario
 router.post ("/signup", async (req, res, next)=>{
 
-    const {username,password, surname, street, number, portal, city, phone, email} = req.body
+    const {username,password, surname, street, number, portal, city, phone, email,role} = req.body
 
     //validación de backend
 
-    if(!username|| !password|| !surname|| !street|| !number || !portal || !city || !phone || !email){
+    if(!username|| !password|| !surname|| !street|| !number || !portal || !city || !phone || !email ||role){
         res.status (400).json({errorMessage: "fill in the fields"})
         return;
 
@@ -47,6 +47,7 @@ router.post ("/signup", async (req, res, next)=>{
             city,
             phone,
             email,
+            role,
             password: hashPassword 
         
 

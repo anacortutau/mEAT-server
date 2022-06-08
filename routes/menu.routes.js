@@ -1,4 +1,6 @@
 const router = require("express").Router();
+const isAdmin = require("../middleware/isAdmin");
+const isAuthenticated = require("../middleware/isAuthenticated");
 const Menu = require("../models/Menu.model");
 
 //GET ver todos los menus
@@ -15,7 +17,7 @@ router.get("/", async (req, res, next)=>{
 })
 
 
-router.post ("/", async (req, res,next)=>{
+router.post ("/", isAuthenticated, isAdmin, async (req, res,next)=>{
 
     const {name, products, image, price} = req.body
     
@@ -42,7 +44,7 @@ router.post ("/", async (req, res,next)=>{
 
 //GET ver los detalles del menu
 
-router.get ("/:id", async(req,res, next)=>{
+router.get ("/:id", isAuthenticated, async(req,res, next)=>{
     const {id} = req.params
 
     try{
@@ -54,7 +56,7 @@ router.get ("/:id", async(req,res, next)=>{
     }
 })
 
-router.patch("/:id", async (req, res, next)=>{
+router.patch("/:id",isAuthenticated, async (req, res, next)=>{
 
     const {id} = req.params
     const {products, name, image, price } = req.body
@@ -84,7 +86,7 @@ router.patch("/:id", async (req, res, next)=>{
 
 //DELETE "/api/menu/:id" => borrar un menu
 
-router.delete("/:id", async(req, res, next)=>{
+router.delete("/:id",isAuthenticated, async(req, res, next)=>{
 
     const {id} = req. params
 

@@ -3,7 +3,7 @@ const Order = require("../models/Order.model")
 const isAuthenticated = require("../middleware/isAuthenticated")
 
 //GET  "/api/order" ver el pedido
-router.get("/", isAuthenticated, async (req, res, next)=>{
+router.get("/",isAuthenticated , async (req, res, next)=>{
     try{
         const{_id} = req.payload;
 
@@ -14,14 +14,16 @@ router.get("/", isAuthenticated, async (req, res, next)=>{
     }
 })
 
-router.post("/", async(req, res, next)=>{
+router.post("/",isAuthenticated, async(req, res, next)=>{
 
-    const {user, products, menu, price } = req.body
+    const {products, menu, price } = req.body
+
+    const{_id} = req.payload;
 
     try{
 
         const response = await Order.create({
-            user,
+            user: _id,
             products:req.body["products[]"],
             menu:req.body["menu[]"],
             //products,
@@ -38,22 +40,22 @@ router.post("/", async(req, res, next)=>{
 
 //GET ver los detalles del order
 
-// router.get("/:id", async(req, res, next)=>{
+router.get("/:id", async(req, res, next)=>{
 
-//     const {id} = req.params
+    const {id} = req.params
 
-//     try{
+    try{
 
-//         const response = await Order.findById(id).populate("products").populate("menu")
-//         res.json(response)
-//     }catch(error){
-//         next(error)
-//     }
-// })
+        const response = await Order.findById(id).populate("products").populate("menu")
+        res.json(response)
+    }catch(error){
+        next(error)
+    }
+})
 
 
 //PATCH "/api/order/:id"
-router.patch("/:id", async(req, res, next)=>{
+router.patch("/:id", isAuthenticated, async(req, res, next)=>{
 
     const {id} = req.params
     const {products, menu, price } = req.body
@@ -85,7 +87,7 @@ router.patch("/:id", async(req, res, next)=>{
 
 //DELETE "/api/order/:id"
 
-router.delete("/:id", async(req, res, next) =>{
+router.delete("/:id",isAuthenticated, async(req, res, next) =>{
 
 
     const {id} = req.params
