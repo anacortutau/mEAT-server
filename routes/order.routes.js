@@ -19,15 +19,16 @@ router.post("/",isAuthenticated, async(req, res, next)=>{
     const {products, menu, price } = req.body
 
     const{_id} = req.payload;
+    console.log(req.body)
 
     try{
 
         const response = await Order.create({
             user: _id,
-            products:req.body["products[]"],
-            menu:req.body["menu[]"],
-            //products,
-            //menu,
+            //products:req.body["products[]"],
+            //menu:req.body["menu[]"],
+            products: req.body.products,
+            menu: req.body.menus,
             price
             
         })
