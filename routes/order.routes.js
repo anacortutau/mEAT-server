@@ -53,6 +53,23 @@ router.get("/:id", async(req, res, next)=>{
     }
 })
 
+//DELETE "/api/order/:id"
+
+router.delete("/:id",isAuthenticated, async(req, res, next) =>{
+
+
+    const {id} = req.params
+    try{
+
+        await Order.findByIdAndDelete(id)
+        res.json("The order has been deleted")
+
+    }catch(error){
+        next(error)
+    }
+
+} )
+
 
 //PATCH "/api/order/:id"
 router.patch("/:id", isAuthenticated, async(req, res, next)=>{
@@ -85,22 +102,7 @@ router.patch("/:id", isAuthenticated, async(req, res, next)=>{
 
 })
 
-//DELETE "/api/order/:id"
 
-router.delete("/:id",isAuthenticated, async(req, res, next) =>{
-
-
-    const {id} = req.params
-    try{
-
-        await Order.findByIdAndDelete(id)
-        res.json("The order has been deleted")
-
-    }catch(error){
-        next(error)
-    }
-
-} )
 
 
 
