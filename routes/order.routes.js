@@ -1,118 +1,91 @@
 const router = require("express").Router();
-const Order = require("../models/Order.model")
-const isAuthenticated = require("../middleware/isAuthenticated")
+const Order = require("../models/Order.model");
+const isAuthenticated = require("../middleware/isAuthenticated");
 
-//GET  "/api/order" ver el pedido
-router.get("/",isAuthenticated , async (req, res, next)=>{
-    try{
-        const{_id} = req.payload;
+//GET  see order
+router.get("/", isAuthenticated, async (req, res, next) => {
+  try {
+    const { _id } = req.payload;
 
-        const response = await Order.find({user:_id}).populate("products").populate("menu")
-        res.json(response)
-    }catch(error){
-        next (error)
-    }
-})
+    const response = await Order.find({ user: _id })
+      .populate("products")
+      .populate("menu");
+    res.json(response);
+  } catch (error) {
+    next(error);
+  }
+});
 
-router.post("/",isAuthenticated, async(req, res, next)=>{
+//POST create order
+router.post("/", isAuthenticated, async (req, res, next) => {
+  const { products, menu, price } = req.body;
 
-    const {products, menu, price } = req.body
+  const { _id } = req.payload;
+  console.log(req.body);
 
-    const{_id} = req.payload;
-    console.log(req.body)
+  try {
+    const response = await Order.create({
+      user: _id,
+      //products:req.body["products[]"],
+      //menu:req.body["menu[]"],
+      products: req.body.products,
+      menu: req.body.menus,
+      price,
+    });
 
-    try{
+    res.json(response);
+  } catch (error) {
+    next(error);
+  }
+});
 
-        const response = await Order.create({
-            user: _id,
-            //products:req.body["products[]"],
-            //menu:req.body["menu[]"],
-            products: req.body.products,
-            menu: req.body.menus,
-            price
-            
-        })
+//GET order details
 
-        res.json(response)
-    }catch(error){
-        next(error)
-    }
-})
+router.get("/:id", async (req, res, next) => {
+  const { id } = req.params;
 
-//GET ver los detalles del order
+  try {
+    const response = await Order.findById(id)
+      .populate("products")
+      .populate("menu");
+    res.json(response);
+  } catch (error) {
+    next(error);
+  }
+});
 
-router.get("/:id", async(req, res, next)=>{
+//DELETE delete order
 
-    const {id} = req.params
+router.delete("/:id", isAuthenticated, async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    await Order.findByIdAndDelete(id);
+    res.json("The order has been deleted");
+  } catch (error) {
+    next(error);
+  }
+});
 
-    try{
+//PATCH edit order
+router.patch("/:id", isAuthenticated, async (req, res, next) => {
+  const { id } = req.params;
+  const { products, menu, price } = req.body;
 
-        const response = await Order.findById(id).populate("products").populate("menu")
-        res.json(response)
-    }catch(error){
-        next(error)
-    }
-})
+  if (!products || !menu || !price === undefined) {
+    return res.status(403).json("Fill in the fields");
+  }
 
-//DELETE "/api/order/:id"
+  try {
+    await Order.findByIdAndUpdate(id, {
+      products,
+      menu,
+      price,
+    });
 
-router.delete("/:id",isAuthenticated, async(req, res, next) =>{
-
-
-    const {id} = req.params
-    try{
-
-        await Order.findByIdAndDelete(id)
-        res.json("The order has been deleted")
-
-    }catch(error){
-        next(error)
-    }
-
-} )
-
-
-//PATCH "/api/order/:id"
-router.patch("/:id", isAuthenticated, async(req, res, next)=>{
-
-    const {id} = req.params
-    const {products, menu, price } = req.body
-
-    // en postman le pedimos que rellene todos los campos
-
-    if(!products|| !menu|| !price === undefined){
-        return res.status(403).json("Fill in the fields")
-
-    }
-
-    try{
-
-        await Order.findByIdAndUpdate(id,{
-            products,
-            menu,
-            price
-        })
-
-
-        res.json("The order has been updated")
-
-
-    }catch(error){
-        next (error)
-    }
-
-})
-
-
-
-
-
-
-
-
-
-
-
-
+    res.json("The order has been updated");
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;
