@@ -3,6 +3,7 @@ const Products = require("../models/Products.model.js");
 const isAdmin = require("../middleware/isAdmin");
 const isAuthenticated = require("../middleware/isAuthenticated.js");
 
+
 //GET  see all products
 router.get("/", async (req, res, next) => {
   try {
@@ -16,14 +17,14 @@ router.get("/", async (req, res, next) => {
 // POST create products
 
 router.post("/", isAuthenticated, isAdmin, async (req, res, next) => {
-  const { category, name, image, price } = req.body;
+  const {category, name, image, price} = req.body;
 
   try {
     const response = await Products.create({
       category,
       name,
-      image,
       price,
+      imagenUrl:image
     });
 
     res.json(response);

@@ -22,7 +22,7 @@ router.post("/", isAuthenticated, isAdmin, async (req, res, next) => {
     const response = await Menu.create({
       products,
       name,
-      image,
+      imagenUrl: image,
       price,
       //products:req.body["products"]
     });

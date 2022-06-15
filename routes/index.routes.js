@@ -23,7 +23,7 @@ router.use("/order",orderRouter)
 const dentroRoutes = require("./dentro.routes.js")
 router.use("/dentro", dentroRoutes)
 
-const uploadRoutes = require("./upload.routes.js")
-router.use("/upload", uploadRoutes )
+const uploaderRoutes = require("./uploader.routes")
+router.use("/uploader", uploaderRoutes)
 
 module.exports = router;
